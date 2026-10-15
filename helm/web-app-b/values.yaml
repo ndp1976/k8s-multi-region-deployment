@@ -1,0 +1,57 @@
+replicaCount: 2
+
+image:
+  repository: us.icr.io/ndp-demo/web-app-b
+  pullPolicy: IfNotPresent
+  tag: "v1.0.0"
+
+imagePullSecrets:
+  - name: icr-pull-secret
+
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  create: true
+  name: ""
+
+podLabels:
+  app: web-app-b
+  version: v1
+
+# ── ICD Redis connection — values populated by deploy script from TF outputs ─
+config:
+  APP_NAME: "web-app-b"
+  REDIS_PORT: "30147"
+
+# ── Sensitive values — populated at deploy time from Terraform outputs ────────
+secret:
+  REDIS_HOST: ""        # module.redis_<region>.redis_hostname
+  REDIS_PASSWORD: ""    # module.redis_<region>.redis_password  (sensitive output)
+  REDIS_CERT_B64: ""    # module.redis_<region>.redis_cert      (sensitive output)
+
+service:
+  type: ClusterIP
+  port: 8080
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 128Mi
+  limits:
+    cpu: 300m
+    memory: 256Mi
+
+livenessProbe:
+  httpGet:
+    path: /status
+    port: 8080
+  initialDelaySeconds: 10
+  periodSeconds: 15
+
+readinessProbe:
+  httpGet:
+    path: /status
+    port: 8080
+  initialDelaySeconds: 5
+  periodSeconds: 10

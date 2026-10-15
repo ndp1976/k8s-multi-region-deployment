@@ -1,0 +1,193 @@
+<mxfile host="Electron">
+  <diagram id="z8Xobibzv1RsH_EvU1rN" name="Page-1">
+    <mxGraphModel dx="2003" dy="850" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="850" pageHeight="1100" background="#ffffff" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="2" parent="1" style="shape=mxgraph.cisco.computers_and_peripherals.pc;sketch=0;html=1;pointerEvents=1;dashed=0;fillColor=#dae8fc;strokeColor=#6c8ebf;strokeWidth=2;verticalLabelPosition=bottom;verticalAlign=top;align=center;outlineConnect=0;" value="User (Internet)" vertex="1">
+          <mxGeometry height="50" width="60" x="680" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="3" parent="1" style="points=[[0,0],[0.25,0],[0.5,0],[0.75,0],[1,0],[1,0.25],[1,0.5],[1,0.75],[1,1],[0.75,1],[0.5,1],[0.25,1],[0,1],[0,0.75],[0,0.5],[0,0.25]];shape=mxgraph.ibm.base;ibmType=groupingContainer;fillColor=none;strokeColor=#000000;strokeWidth=2;fontStyle=1;fontSize=13;fontColor=#000000;verticalAlign=top;align=left;spacingLeft=10;spacingTop=5;" value="IBM Cloud" vertex="1">
+          <mxGeometry height="1340" width="1290" x="75" y="120" as="geometry" />
+        </mxCell>
+        <mxCell id="4" parent="1" style="points=[[0,0],[0.25,0],[0.5,0],[0.75,0],[1,0],[1,0.25],[1,0.5],[1,0.75],[1,1],[0.75,1],[0.5,1],[0.25,1],[0,1],[0,0.75],[0,0.5],[0,0.25]];shape=mxgraph.ibm.base;ibmType=groupingContainer;fillColor=#E6F3FF;strokeColor=#0058A3;strokeWidth=2;fontStyle=1;fontSize=11;fontColor=#0058A3;verticalAlign=top;align=left;spacingLeft=10;spacingTop=5;" value="IBM Cloud Internet Services (CIS / Cloudflare)" vertex="1">
+          <mxGeometry height="180" width="420" x="490" y="150" as="geometry" />
+        </mxCell>
+        <mxCell id="5" parent="1" style="shape=mxgraph.ibm.network;ibmShapeType=loadBalancer;sketch=0;html=1;whiteSpace=wrap;fillColor=#0058A3;strokeColor=#003A75;fontColor=#ffffff;fontStyle=1;fontSize=10;align=center;" value="Global Load Balancer&#xa;mydemo.cistest-load.com" vertex="1">
+          <mxGeometry height="55" width="130" x="630" y="185" as="geometry" />
+        </mxCell>
+        <mxCell id="6" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=9;align=center;" value="Pool: us-south-web-app-a&#xa;Health: GET /status" vertex="1">
+          <mxGeometry height="55" width="150" x="540" y="260" as="geometry" />
+        </mxCell>
+        <mxCell id="7" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=9;align=center;" value="Pool: us-east-web-app-a&#xa;Health: GET /status" vertex="1">
+          <mxGeometry height="55" width="150" x="730" y="260" as="geometry" />
+        </mxCell>
+        <mxCell id="8" parent="1" style="points=[[0,0],[0.25,0],[0.5,0],[0.75,0],[1,0],[1,0.25],[1,0.5],[1,0.75],[1,1],[0.75,1],[0.5,1],[0.25,1],[0,1],[0,0.75],[0,0.5],[0,0.25]];shape=mxgraph.ibm.base;ibmType=groupingContainer;fillColor=#E6FFE6;strokeColor=#107C10;strokeWidth=2;fontStyle=1;fontSize=10;fontColor=#107C10;verticalAlign=top;align=left;spacingLeft=10;spacingTop=5;" value="IKS Cluster — us-south&#xa;VPC: poc-us-south-3-vpc | AZ: us-south-3&#xa;Workers: 3x bxf.4x16 Ubuntu 24" vertex="1">
+          <mxGeometry height="440" width="510" x="100" y="440" as="geometry" />
+        </mxCell>
+        <mxCell id="9" parent="1" style="shape=mxgraph.ibm.network;ibmShapeType=gateway;sketch=0;html=1;whiteSpace=wrap;fillColor=#107C10;strokeColor=#0E5A0E;fontColor=#ffffff;fontStyle=1;fontSize=10;align=center;" value="Istio Gateway&#xa;(edge worker pool)" vertex="1">
+          <mxGeometry height="55" width="130" x="300" y="480" as="geometry" />
+        </mxCell>
+        <mxCell id="10" parent="1" style="swimlane;startSize=25;fillColor=#F0FFF0;strokeColor=#107C10;strokeWidth=2;fontSize=10;fontStyle=1;fontColor=#107C10;" value="Namespace: mydemo" vertex="1">
+          <mxGeometry height="270" width="450" x="130" y="570" as="geometry" />
+        </mxCell>
+        <mxCell id="11" parent="10" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=9;align=left;spacingLeft=5;" value="Web App A&#xa;replicas: 2, HPA 2-10/CPU&#xa;GET /status&#xa;GET /message&#xa;POST /spike" vertex="1">
+          <mxGeometry height="90" width="190" x="20" y="35" as="geometry" />
+        </mxCell>
+        <mxCell id="12" parent="10" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=9;align=left;spacingLeft=5;" value="Web App B&#xa;GET /get, POST /set&#xa;GET /status&#xa;AuthzPolicy: web-app-a SA only" vertex="1">
+          <mxGeometry height="90" width="190" x="240" y="35" as="geometry" />
+        </mxCell>
+        <mxCell id="13" parent="10" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=8;fontStyle=2;fontColor=#b85450;" value="mTLS (Istio PeerAuthentication)" vertex="1">
+          <mxGeometry height="20" width="250" x="100" y="140" as="geometry" />
+        </mxCell>
+        <mxCell id="14" parent="1" style="points=[[0,0],[0.25,0],[0.5,0],[0.75,0],[1,0],[1,0.25],[1,0.5],[1,0.75],[1,1],[0.75,1],[0.5,1],[0.25,1],[0,1],[0,0.75],[0,0.5],[0,0.25]];shape=mxgraph.ibm.base;ibmType=groupingContainer;fillColor=#E6FFE6;strokeColor=#107C10;strokeWidth=2;fontStyle=1;fontSize=10;fontColor=#107C10;verticalAlign=top;align=left;spacingLeft=10;spacingTop=5;" value="IKS Cluster — us-east&#xa;VPC: poc-us-east-3-vpc | AZ: us-east-3&#xa;Workers: 3x bxf.4x16 Ubuntu 24" vertex="1">
+          <mxGeometry height="440" width="510" x="810" y="440" as="geometry" />
+        </mxCell>
+        <mxCell id="15" parent="1" style="shape=mxgraph.ibm.network;ibmShapeType=gateway;sketch=0;html=1;whiteSpace=wrap;fillColor=#107C10;strokeColor=#0E5A0E;fontColor=#ffffff;fontStyle=1;fontSize=10;align=center;" value="Istio Gateway&#xa;(edge worker pool)" vertex="1">
+          <mxGeometry height="55" width="130" x="990" y="480" as="geometry" />
+        </mxCell>
+        <mxCell id="16" parent="1" style="swimlane;startSize=25;fillColor=#F0FFF0;strokeColor=#107C10;strokeWidth=2;fontSize=10;fontStyle=1;fontColor=#107C10;" value="Namespace: mydemo" vertex="1">
+          <mxGeometry height="270" width="450" x="840" y="570" as="geometry" />
+        </mxCell>
+        <mxCell id="17" parent="16" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=9;align=left;spacingLeft=5;" value="Web App A&#xa;replicas: 2, HPA 2-10/CPU&#xa;GET /status&#xa;GET /message&#xa;POST /spike" vertex="1">
+          <mxGeometry height="90" width="190" x="20" y="35" as="geometry" />
+        </mxCell>
+        <mxCell id="18" parent="16" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=9;align=left;spacingLeft=5;" value="Web App B&#xa;GET /get, POST /set&#xa;GET /status&#xa;AuthzPolicy: web-app-a SA only" vertex="1">
+          <mxGeometry height="90" width="190" x="240" y="35" as="geometry" />
+        </mxCell>
+        <mxCell id="19" parent="16" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=8;fontStyle=2;fontColor=#b85450;" value="mTLS (Istio PeerAuthentication)" vertex="1">
+          <mxGeometry height="20" width="250" x="100" y="140" as="geometry" />
+        </mxCell>
+        <mxCell id="20" parent="1" style="shape=mxgraph.ibm.network;ibmShapeType=transitGateway;sketch=0;html=1;whiteSpace=wrap;fillColor=#0058A3;strokeColor=#003A75;fontColor=#ffffff;fontStyle=1;fontSize=9;align=center;" value="IBM Transit Gateway&#xa;poc-tgw (global)&#xa;Connects us-south + us-east VPCs" vertex="1">
+          <mxGeometry height="55" width="140" x="640" y="490" as="geometry" />
+        </mxCell>
+        <mxCell id="21" parent="1" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;fillColor=#0058A3;strokeColor=#003A75;fontColor=#ffffff;fontStyle=1;fontSize=9;align=center;" value="IBM Cloud Databases&#xa;Redis — poc-us-south-3-redis&#xa;2 members | Private endpoint only&#xa;Provider-managed encryption" vertex="1">
+          <mxGeometry height="80" width="230" x="590" y="780" as="geometry" />
+        </mxCell>
+        <mxCell id="22" parent="1" style="points=[[0,0],[0.25,0],[0.5,0],[0.75,0],[1,0],[1,0.25],[1,0.5],[1,0.75],[1,1],[0.75,1],[0.5,1],[0.25,1],[0,1],[0,0.75],[0,0.5],[0,0.25]];shape=mxgraph.ibm.base;ibmType=groupingContainer;fillColor=#FFF8E6;strokeColor=#D6A800;strokeWidth=2;fontStyle=1;fontSize=10;fontColor=#7A5C00;verticalAlign=top;align=left;spacingLeft=10;spacingTop=5;" value="Shared IBM Cloud Services (both clusters)" vertex="1">
+          <mxGeometry height="290" width="1240" x="100" y="930" as="geometry" />
+        </mxCell>
+        <mxCell id="23" parent="1" style="shape=mxgraph.ibm.security;ibmShapeType=keyManagement;sketch=0;html=1;whiteSpace=wrap;fillColor=#F4A800;strokeColor=#B87A00;fontColor=#000000;fontStyle=0;fontSize=9;align=center;" value="IBM Key Protect (KMS)&#xa;Pre-existing instance&#xa;K8s secret encryption at rest&#xa;(kms_config on both clusters)" vertex="1">
+          <mxGeometry height="100" width="230" x="130" y="970" as="geometry" />
+        </mxCell>
+        <mxCell id="24" parent="1" style="shape=mxgraph.ibm.security;ibmShapeType=secretsManager;sketch=0;html=1;whiteSpace=wrap;fillColor=#F4A800;strokeColor=#B87A00;fontColor=#000000;fontStyle=0;fontSize=9;align=center;" value="IBM Secrets Manager&#xa;Pre-existing instance&#xa;App secrets + TLS certs&#xa;SecretsReader via Trusted Profile" vertex="1">
+          <mxGeometry height="100" width="230" x="390" y="970" as="geometry" />
+        </mxCell>
+        <mxCell id="25" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F4A800;strokeColor=#B87A00;fontColor=#000000;fontSize=9;align=center;" value="IBM Cloud Logs&#xa;poc-us-south-3-logs&#xa;Logs from both clusters&#xa;Agent: Trusted Profile (Sender)" vertex="1">
+          <mxGeometry height="100" width="230" x="650" y="970" as="geometry" />
+        </mxCell>
+        <mxCell id="26" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F4A800;strokeColor=#B87A00;fontColor=#000000;fontSize=9;align=center;" value="IBM Cloud Monitoring&#xa;poc-us-south-3-monitoring&#xa;Metrics from both clusters&#xa;Agent: access_key (private EP)" vertex="1">
+          <mxGeometry height="100" width="230" x="910" y="970" as="geometry" />
+        </mxCell>
+        <mxCell id="54" parent="1" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;fillColor=#F4A800;strokeColor=#B87A00;fontColor=#000000;fontStyle=1;fontSize=9;align=center;" value="IBM Container Registry (ICR)&#xa;namespace: ndp-demo&#xa;Stores web-app-a + web-app-b images&#xa;Both clusters pull (private endpoint)" vertex="1">
+          <mxGeometry height="100" width="660" x="390" y="1090" as="geometry" />
+        </mxCell>
+        <mxCell id="27" parent="1" style="points=[[0,0],[0.25,0],[0.5,0],[0.75,0],[1,0],[1,0.25],[1,0.5],[1,0.75],[1,1],[0.75,1],[0.5,1],[0.25,1],[0,1],[0,0.75],[0,0.5],[0,0.25]];shape=mxgraph.ibm.base;ibmType=groupingContainer;fillColor=#F5F0FF;strokeColor=#6929C4;strokeWidth=2;fontStyle=1;fontSize=10;fontColor=#6929C4;verticalAlign=top;align=left;spacingLeft=10;spacingTop=5;" value="IAM Governance (modules/governance)" vertex="1">
+          <mxGeometry height="170" width="1240" x="100" y="1240" as="geometry" />
+        </mxCell>
+        <mxCell id="28" parent="1" style="shape=mxgraph.ibm.management;ibmShapeType=resourceGroup;sketch=0;html=1;whiteSpace=wrap;fillColor=#6929C4;strokeColor=#4A1D96;fontColor=#ffffff;fontSize=9;align=center;" value="Resource Group&#xa;niraj-sandbox-nprd&#xa;(pre-existing, looked up)" vertex="1">
+          <mxGeometry height="100" width="180" x="130" y="1280" as="geometry" />
+        </mxCell>
+        <mxCell id="29" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E8DAFF;strokeColor=#6929C4;fontColor=#000000;fontSize=9;align=left;spacingLeft=5;" value="IAM Access Groups&#xa;dev (Viewer+Writer)&#xa;sre (Operator+Writer)&#xa;ops (Admin+Manager)&#xa;automation (Editor+Writer)" vertex="1">
+          <mxGeometry height="100" width="220" x="340" y="1280" as="geometry" />
+        </mxCell>
+        <mxCell id="30" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E8DAFF;strokeColor=#6929C4;fontColor=#000000;fontSize=9;align=left;spacingLeft=5;" value="IAM Service IDs&#xa;poc-svc-dev&#xa;poc-svc-sre&#xa;poc-svc-ops&#xa;poc-svc-automation" vertex="1">
+          <mxGeometry height="100" width="180" x="590" y="1280" as="geometry" />
+        </mxCell>
+        <mxCell id="31" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E8DAFF;strokeColor=#6929C4;fontColor=#000000;fontSize=9;align=left;spacingLeft=5;" value="Trusted Profiles — us-south&#xa;tp-apps: SecretsReader (SM)&#xa;tp-logs-agent: Sender (Logs)&#xa;No long-lived API keys" vertex="1">
+          <mxGeometry height="100" width="230" x="800" y="1280" as="geometry" />
+        </mxCell>
+        <mxCell id="32" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E8DAFF;strokeColor=#6929C4;fontColor=#000000;fontSize=9;align=left;spacingLeft=5;" value="Trusted Profiles — us-east&#xa;tp-apps: SecretsReader (SM)&#xa;tp-logs-agent: Sender (Logs)&#xa;No long-lived API keys" vertex="1">
+          <mxGeometry height="100" width="230" x="1060" y="1280" as="geometry" />
+        </mxCell>
+        <mxCell id="33" edge="1" parent="1" source="hxdqiifFK1C6DJk0_vA6-59" target="5" value="HTTPS :443">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="34" edge="1" parent="1" source="5" target="6" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="35" edge="1" parent="1" source="5" target="7" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="36" edge="1" parent="1" source="hxdqiifFK1C6DJk0_vA6-56" target="9" value="us-south origin">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="37" edge="1" parent="1" source="7" target="15" value="us-east origin">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="38" edge="1" parent="1" source="9" target="10" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="40" edge="1" parent="1" source="15" target="16" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="42" edge="1" parent="1" source="12" target="21" value="TLS private endpoint">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="43" edge="1" parent="1" source="18" target="21" value="TLS private endpoint">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="44" edge="1" parent="1" source="8" style="dashed=1;endArrow=block;startArrow=block;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" target="20" value="east-west failover&#xa;(DestinationRule)">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="45" edge="1" parent="1" source="14" style="dashed=1;endArrow=block;startArrow=block;exitX=0;exitY=0.5;exitDx=0;exitDy=0;" target="20" value="east-west failover&#xa;(DestinationRule)">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="46" edge="1" parent="1" source="8" style="dashed=1;endArrow=open;strokeColor=#B87A00;" target="25" value="logs agent&#xa;(Trusted Profile)">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="47" edge="1" parent="1" source="14" style="dashed=1;endArrow=open;strokeColor=#B87A00;" target="25" value="logs agent&#xa;(Trusted Profile)">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="48" edge="1" parent="1" source="8" style="dashed=1;endArrow=open;strokeColor=#B87A00;" target="26" value="monitoring agent&#xa;(access_key)">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="49" edge="1" parent="1" source="14" style="dashed=1;endArrow=open;strokeColor=#B87A00;" target="26" value="monitoring agent&#xa;(access_key)">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="50" edge="1" parent="1" source="8" style="dashed=1;endArrow=open;strokeColor=#6929C4;" target="23" value="kms_config&#xa;(K8s secret encryption)">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="51" edge="1" parent="1" source="14" style="dashed=1;endArrow=open;strokeColor=#6929C4;" target="23" value="kms_config&#xa;(K8s secret encryption)">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="52" edge="1" parent="1" source="8" style="dashed=1;endArrow=open;strokeColor=#6929C4;" target="24" value="SecretsReader&#xa;(Trusted Profile)">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="53" edge="1" parent="1" source="14" style="dashed=1;endArrow=open;strokeColor=#6929C4;" target="24" value="SecretsReader&#xa;(Trusted Profile)">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="55" edge="1" parent="1" source="8" style="dashed=1;endArrow=open;strokeColor=#B87A00;" target="54" value="pull images&#xa;(private endpoint)">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="56" edge="1" parent="1" source="14" style="dashed=1;endArrow=open;strokeColor=#B87A00;" target="54" value="pull images&#xa;(private endpoint)">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="hxdqiifFK1C6DJk0_vA6-57" edge="1" parent="1" source="6" target="hxdqiifFK1C6DJk0_vA6-56" value="">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="594" y="315" as="sourcePoint" />
+            <mxPoint x="386" y="580" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="hxdqiifFK1C6DJk0_vA6-56" parent="1" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=none;fillColor=#232F3D;strokeColor=none;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;pointerEvents=1;shape=mxgraph.aws4.ssl_padlock;" value="" vertex="1">
+          <mxGeometry height="30" width="30.79" x="529.21" y="360" as="geometry" />
+        </mxCell>
+        <mxCell id="hxdqiifFK1C6DJk0_vA6-58" parent="1" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=none;fillColor=#232F3D;strokeColor=none;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;pointerEvents=1;shape=mxgraph.aws4.ssl_padlock;" value="" vertex="1">
+          <mxGeometry height="30" width="30.79" x="849.21" y="360" as="geometry" />
+        </mxCell>
+        <mxCell id="hxdqiifFK1C6DJk0_vA6-60" edge="1" parent="1" source="2" target="hxdqiifFK1C6DJk0_vA6-59" value="">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="708" y="80" as="sourcePoint" />
+            <mxPoint x="698" y="185" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="hxdqiifFK1C6DJk0_vA6-59" parent="1" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=none;fillColor=#232F3D;strokeColor=none;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;pointerEvents=1;shape=mxgraph.aws4.ssl_padlock;" value="" vertex="1">
+          <mxGeometry height="30" width="30.79" x="684.61" y="100" as="geometry" />
+        </mxCell>
+        <mxCell id="hxdqiifFK1C6DJk0_vA6-61" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="SSL Termination at Edge&lt;br&gt;WAF/DDoS Protection&lt;br&gt;Geo based load balancin" vertex="1">
+          <mxGeometry height="30" width="140" x="770" y="180" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

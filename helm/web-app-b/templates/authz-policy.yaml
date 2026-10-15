@@ -1,0 +1,25 @@
+###############################################################################
+# Istio AuthorizationPolicy — Web App B
+# Only the web-app-a ServiceAccount (in the same namespace) is allowed to
+# call web-app-b. All other sources are denied by default.
+###############################################################################
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: web-app-b-allow-from-a
+  namespace: {{ .Release.Namespace }}
+spec:
+  selector:
+    matchLabels:
+      app: web-app-b
+  action: ALLOW
+  rules:
+    - from:
+        - source:
+            # mTLS principal: cluster.local/ns/<namespace>/sa/<serviceaccount>
+            principals:
+              - "cluster.local/ns/{{ .Release.Namespace }}/sa/web-app-a"
+      to:
+        - operation:
+            methods: ["GET", "POST"]
+            paths: ["/get", "/set", "/status"]

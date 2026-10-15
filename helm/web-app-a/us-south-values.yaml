@@ -1,0 +1,5 @@
+# us-south overrides for web-app-a:  helm ... -f helm/web-app-a/us-south-values.yaml
+ingress:
+  hosts:
+    - mydemo.cistest-load.com          # shared hostname (both regions)
+    - mydemo-us-south.cistest-load.com # region-specific hostname

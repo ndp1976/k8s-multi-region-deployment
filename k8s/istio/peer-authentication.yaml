@@ -1,0 +1,12 @@
+###############################################################################
+# PeerAuthentication — enforce mTLS STRICT in the shared application namespace
+# Deploy to BOTH clusters.
+###############################################################################
+apiVersion: security.istio.io/v1beta1
+kind: PeerAuthentication
+metadata:
+  name: default
+  namespace: mydemo
+spec:
+  mtls:
+    mode: STRICT

@@ -1,0 +1,13 @@
+*.log
+node_modules/
+.env*
+*.pem
+**/.DS_Store
+
+# IDEs
+.idea
+/.vscode
+
+# Terraform
+.terraform*
+terraform.tfstate*

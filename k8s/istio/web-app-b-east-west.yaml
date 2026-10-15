@@ -1,0 +1,94 @@
+###############################################################################
+# Istio east-west routing for Web App B (Active/Active across two clusters)
+#
+# Web App A calls: http://web-app-b.mydemo.svc.cluster.local:8080
+#
+# DestinationRule splits that traffic between:
+#   - local subset  → pods in the same cluster (primary)
+#   - remote subset → pods in the remote cluster via Transit Gateway
+#
+# The remote cluster's web-app-b service is imported through a ServiceEntry
+# using the private load-balancer IP / hostname shared over the Transit Gateway.
+#
+# Deploy this manifest to BOTH clusters.
+###############################################################################
+
+# ── DestinationRule — weighted round-robin local/remote ──────────────────────
+apiVersion: networking.istio.io/v1beta1
+kind: DestinationRule
+metadata:
+  name: web-app-b-east-west
+  namespace: mydemo
+spec:
+  host: web-app-b.mydemo.svc.cluster.local
+  trafficPolicy:
+    connectionPool:
+      tcp:
+        maxConnections: 100
+      http:
+        http2MaxRequests: 200
+    outlierDetection:
+      consecutive5xxErrors: 3
+      interval: 10s
+      baseEjectionTime: 30s
+      maxEjectionPercent: 50
+  subsets:
+    - name: local
+      labels:
+        app: web-app-b
+    - name: remote
+      labels:
+        app: web-app-b
+      trafficPolicy:
+        loadBalancer:
+          simple: ROUND_ROBIN
+---
+# ── VirtualService — prefer local, failover to remote ────────────────────────
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: web-app-b-east-west
+  namespace: mydemo
+spec:
+  hosts:
+    - web-app-b.mydemo.svc.cluster.local
+  http:
+    - route:
+        # 100% local; change weights to 50/50 for active-active load balancing
+        - destination:
+            host: web-app-b.mydemo.svc.cluster.local
+            subset: local
+          weight: 100
+        - destination:
+            host: web-app-b-remote.mydemo.svc.cluster.local
+            subset: remote
+          weight: 0
+      retries:
+        attempts: 3
+        perTryTimeout: 3s
+        retryOn: connect-failure,refused-stream,unavailable,5xx
+---
+# ── ServiceEntry — import remote cluster's web-app-b over Transit Gateway ────
+# Replace REMOTE_LB_IP with the actual internal load-balancer address of
+# web-app-b in the peer cluster (discovered after deployment).
+apiVersion: networking.istio.io/v1beta1
+kind: ServiceEntry
+metadata:
+  name: web-app-b-remote
+  namespace: mydemo
+spec:
+  hosts:
+    - web-app-b-remote.mydemo.svc.cluster.local
+  location: MESH_EXTERNAL
+  ports:
+    - number: 8080
+      name: http
+      protocol: HTTP
+  resolution: STATIC
+  endpoints:
+    - address: "REMOTE_LB_IP"   # replace after deploy — see scripts/deploy.sh
+      ports:
+        http: 8080
+      labels:
+        app: web-app-b
+        region: remote

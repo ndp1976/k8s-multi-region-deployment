@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "web-app-b.fullname" . }}-config
+  labels:
+    {{- include "web-app-b.labels" . | nindent 4 }}
+data:
+  APP_NAME: {{ .Values.config.APP_NAME | quote }}
+  REDIS_PORT: {{ .Values.config.REDIS_PORT | quote }}

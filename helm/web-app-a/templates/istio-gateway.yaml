@@ -1,0 +1,48 @@
+{{- if .Values.ingress.enabled }}
+# Istio Gateway — accepts public HTTPS on port 443
+apiVersion: networking.istio.io/v1beta1
+kind: Gateway
+metadata:
+  name: {{ include "web-app-a.fullname" . }}-gateway
+  labels:
+    {{- include "web-app-a.labels" . | nindent 4 }}
+spec:
+  selector:
+    istio: ingressgateway   # targets the edge worker-pool ingress gateway
+  servers:
+    - port:
+        number: 443
+        name: https
+        protocol: HTTPS
+      tls:
+        mode: SIMPLE
+        credentialName: {{ .Values.ingress.tlsSecret }}
+      hosts:
+        {{- range .Values.ingress.hosts }}
+        - {{ . | quote }}
+        {{- end }}
+---
+# VirtualService — routes traffic from the gateway to the service
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: {{ include "web-app-a.fullname" . }}
+  labels:
+    {{- include "web-app-a.labels" . | nindent 4 }}
+spec:
+  hosts:
+    {{- range .Values.ingress.hosts }}
+    - {{ . | quote }}
+    {{- end }}
+  gateways:
+    - {{ include "web-app-a.fullname" . }}-gateway
+  http:
+    - match:
+        - uri:
+            prefix: /
+      route:
+        - destination:
+            host: {{ include "web-app-a.fullname" . }}
+            port:
+              number: {{ .Values.service.port }}
+{{- end }}

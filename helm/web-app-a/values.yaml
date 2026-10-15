@@ -1,0 +1,79 @@
+# Default values for web-app-a.
+# Override per environment with -f values-<env>.yaml
+
+replicaCount: 2
+
+image:
+  repository: us.icr.io/ndp-demo/web-app-a
+  pullPolicy: IfNotPresent
+  tag: "v1.0.0"
+
+imagePullSecrets:
+  - name: icr-pull-secret
+
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  create: true
+  name: ""
+
+# ── Pod labels injected for Istio source-principal matching ──────────────────
+podLabels:
+  app: web-app-a
+  version: v1
+
+# ── ConfigMap values ─────────────────────────────────────────────────────────
+config:
+  APP_NAME: "web-app-a"
+  APP_ENV: "poc"
+  WEB_APP_B_URL: "http://web-app-b.mydemo.svc.cluster.local:8080"
+  SPIKE_SECONDS: "20"
+
+# ── Secret references (values injected at deploy time / from IBM SM) ─────────
+secret:
+  API_SECRET: ""   # static secret callers must send in the Authorization header; override with --set secret.API_SECRET=<value> or external-secrets
+
+service:
+  type: ClusterIP
+  port: 8080
+
+# ── Ingress — Istio Gateway for public HTTPS ─────────────────────────────────
+# `hosts` is a list: Helm replaces (does not merge) lists, so the per-region
+# files (us-south-values.yaml / us-east-values.yaml) must list every host.
+ingress:
+  enabled: true
+  hosts:
+    - mydemo.cistest-load.com
+  tlsSecret: web-app-a-tls   # pre-created TLS secret in the ingress gateway's namespace (istio-system), not the app namespace
+
+# ── HPA ──────────────────────────────────────────────────────────────────────
+autoscaling:
+  enabled: true
+  minReplicas: 2
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: 60
+
+# ── Resource requests/limits ─────────────────────────────────────────────────
+resources:
+  requests:
+    cpu: 100m
+    memory: 128Mi
+  limits:
+    cpu: 500m
+    memory: 256Mi
+
+# ── Probes ───────────────────────────────────────────────────────────────────
+livenessProbe:
+  httpGet:
+    path: /status
+    port: 8080
+  initialDelaySeconds: 10
+  periodSeconds: 15
+
+readinessProbe:
+  httpGet:
+    path: /status
+    port: 8080
+  initialDelaySeconds: 5
+  periodSeconds: 10
